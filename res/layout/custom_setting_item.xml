@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:ToolBar="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/id_relativelayout_root"
+    android:layout_width="match_parent"
+    android:layout_height="50dp" > 
+
+    <LinearLayout
+        android:id="@+id/id_linearlayout_update"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="5dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自动更新设置"
+            android:textColor="#000"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/id_textview_update_prompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自动更新已经开启"
+            android:textColor="#999"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/id_checkbox_status"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:checked="true"
+        android:layout_alignParentRight="true" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_alignParentBottom="true"
+        android:background="#666" />
+
+</RelativeLayout>

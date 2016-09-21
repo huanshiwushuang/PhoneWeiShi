@@ -1,0 +1,21 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:guohao="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/id_relativelayout_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView 
+        android:id="@+id/id_textview_title"
+        android:text="功能列表"
+        style="@style/TitleStyle"/>
+    
+    <com.guohao.custom.SettingItem
+        android:id="@+id/id_setting_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+   <!--  <com.guohao.custom.TextViewDeng
+        guohao:numValue="1" /> -->
+
+</LinearLayout>

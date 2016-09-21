@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <declare-styleable name="itscitc">
+        <attr name="numValue" format="integer"/>
+        <attr name="btnBg" format="reference|color"/>
+    </declare-styleable>
+</resources>
