@@ -20,11 +20,13 @@
     </LinearLayout>
 
     <EditText
+        android:id="@+id/id_edittext_input_phone_num"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="请输入或者选择安全号码" />
 
     <Button
+        android:id="@+id/id_button_select_phone_num"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@drawable/get_phone"

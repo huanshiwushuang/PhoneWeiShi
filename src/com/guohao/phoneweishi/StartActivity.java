@@ -105,7 +105,7 @@ public class StartActivity extends Activity implements OnItemClickListener,OnCli
 				String pwd = StringUtil.encodeMD5(pwd1.getText().toString());
 				if (pwd.equals(string)) {
 					dialog.dismiss();
-					PhoneSecurity01.actionStart(StartActivity.this);
+					PhoneSecurity01.actionStart(StartActivity.this,Data.V_Phone_SIM_Serial,Data.V_Phone_Security_Num,Data.V_Phone_Security_Start);
 					Util.showToast(StartActivity.this, "µÇÂ½³É¹¦");
 				}else {
 					Util.showToast(StartActivity.this, "ÃÜÂë´íÎó");
