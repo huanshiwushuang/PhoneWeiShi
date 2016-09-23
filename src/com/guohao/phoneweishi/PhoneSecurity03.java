@@ -28,20 +28,10 @@ public class PhoneSecurity03 extends Activity implements OnClickListener {
 		
 		initView();
 		initShareData();
-		initIntentData();
 		setListener();
 	}
 	private void setListener() {
 		selectPhoneNum.setOnClickListener(this);
-	}
-	private void initIntentData() {
-		Intent intent = getIntent();
-		serial = intent.getStringExtra(Data.K_Phone_SIM_Serial);
-		securityNum = intent.getStringExtra(Data.K_Phone_Security_Num);
-		securityStart = intent.getBooleanExtra(Data.K_Phone_Security_Start, Data.V_Phone_Security_Start);
-		if (!securityNum.equals(Data.V_Phone_Security_Num)) {
-			inputPhoneNum.setText(securityNum);
-		}
 	}
 	private void initShareData() {
 		SharedPreferences p = Util.getPreferences(this);
@@ -69,16 +59,13 @@ public class PhoneSecurity03 extends Activity implements OnClickListener {
 
 	public void last(View view) {
 		securityNum = inputPhoneNum.getText().toString();
-		PhoneSecurity02.actionStart(PhoneSecurity03.this,serial,securityNum,securityStart);
+		PhoneSecurity02.actionStart(PhoneSecurity03.this);
 		finish();
 		overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
 	}
 	
-	public static void actionStart(Context c, String serial, String securityNum, Boolean securityStart) {
+	public static void actionStart(Context c) {
 		Intent intent = new Intent(c, PhoneSecurity03.class);
-		intent.putExtra(Data.K_Phone_SIM_Serial, serial);
-		intent.putExtra(Data.K_Phone_Security_Num, securityNum);
-		intent.putExtra(Data.K_Phone_Security_Start, securityStart);
 		c.startActivity(intent);
 	}
 }
