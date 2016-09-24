@@ -6,20 +6,15 @@ import com.guohao.Util.Util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.Toast;
 
-public class PhoneSecurity04 extends Activity implements OnCheckedChangeListener {
-	private String serial;
-	private String securityNum;
-	private Boolean securityStart;
-	
+public class PhoneSecurity04 extends Activity {
 	private CheckBox startBH;
+	private SharedPreferences p;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,50 +22,40 @@ public class PhoneSecurity04 extends Activity implements OnCheckedChangeListener
 		setContentView(R.layout.activity_phonesecurity04);
 		
 		initView();
-		initIntentData();
-		setListener();
+		initShareData();
 	}
-	@Override
-	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		securityStart = isChecked;
-	}
-	private void setListener() {
-		startBH.setOnCheckedChangeListener(this);
-	}
-	private void initIntentData() {
-		Intent intent = getIntent();
-		serial = intent.getStringExtra(Data.K_Phone_Security_Num);
-		securityNum = intent.getStringExtra(Data.K_Phone_Security_Num);
-		securityStart = intent.getBooleanExtra(Data.K_Phone_Security_Start, Data.V_Phone_Security_Start);
-		startBH.setChecked(securityStart);
+	private void initShareData() {
+		Boolean status = p.getBoolean(Data.K_Phone_Security_Start, Data.V_Phone_Security_Start);
+		startBH.setChecked(status);
 	}
 	private void initView() {
 		startBH = (CheckBox) findViewById(R.id.id_checkbox_start_bh);
+		p = Util.getPreferences(PhoneSecurity04.this);
 	}
 	public void next(View view) {
-		if (securityStart) {
-			Editor editor = Util.getPreferences(PhoneSecurity04.this).edit();
-			editor.putString(Data.K_Phone_SIM_Serial, serial);
-			editor.putString(Data.K_Phone_Security_Num, securityNum);
-			editor.putBoolean(Data.K_Phone_Security_Start, securityStart);
-			editor.commit();
-		}
+		saveShareData();
 		Util.showToast(this, "…Ë÷√ÕÍ≥…");
+		PhoneSecurityEnd.actionStart(PhoneSecurity04.this);
 		finish();
 		overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 	}
-
 	public void last(View view) {
-		PhoneSecurity03.actionStart(PhoneSecurity04.this,serial,securityNum,securityStart);
+		saveShareData();
+		PhoneSecurity03.actionStart(PhoneSecurity04.this);
 		finish();
 		overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
 	}
-
-	public static void actionStart(Context c, String serial, String securityNum, Boolean securityStart) {
+	private void saveShareData() {
+		Editor editor = p.edit();
+		if (startBH.isChecked()) {
+			editor.putBoolean(Data.K_Phone_Security_Start, true);
+		}else {
+			editor.putBoolean(Data.K_Phone_Security_Start, Data.V_Phone_Security_Start);
+		}
+		editor.commit();
+	}
+	public static void actionStart(Context c) {
 		Intent intent = new Intent(c, PhoneSecurity04.class);
-		intent.putExtra(Data.K_Phone_SIM_Serial, serial);
-		intent.putExtra(Data.K_Phone_Security_Num, securityNum);
-		intent.putExtra(Data.K_Phone_Security_Start, securityStart);
 		c.startActivity(intent);
 	}
 }

@@ -15,7 +15,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
-public class PhoneSecurity02 extends Activity implements OnCheckedChangeListener {
+public class PhoneSecurity02 extends Activity {
 	private CheckBox cBox;
 	private SharedPreferences p;
 	
@@ -26,16 +26,10 @@ public class PhoneSecurity02 extends Activity implements OnCheckedChangeListener
 		
 		initView();
 		initShareData();
-		setListener();
-	}
-	private void setListener() {
-		cBox.setOnCheckedChangeListener(this);
 	}
 	private void initShareData() {
 		String string = p.getString(Data.K_Phone_SIM_Serial, Data.V_Phone_SIM_Serial);
-		if (string.equals(Data.V_Phone_SIM_Serial)) {
-			cBox.setChecked(false);
-		}else {
+		if (!string.equals(Data.V_Phone_SIM_Serial)) {
 			cBox.setChecked(true);
 		}
 	}
@@ -43,10 +37,22 @@ public class PhoneSecurity02 extends Activity implements OnCheckedChangeListener
 		cBox = (CheckBox) findViewById(R.id.id_checkbox_bd_phone);
 		p = Util.getPreferences(PhoneSecurity02.this);
 	}
-	@Override
-	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+	
+	public void next(View view) {
+		saveShareData();
+		PhoneSecurity03.actionStart(PhoneSecurity02.this);
+		finish();
+		overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+	}
+	public void last(View view) {
+		saveShareData();
+		PhoneSecurity01.actionStart(PhoneSecurity02.this);
+		finish();
+		overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+	}
+	private void saveShareData() {
 		Editor editor = p.edit();
-		if (isChecked) {
+		if (cBox.isChecked()) {
 			TelephonyManager manager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
 			String string = manager.getSimSerialNumber();
 			editor.putString(Data.K_Phone_SIM_Serial, string);
@@ -54,18 +60,6 @@ public class PhoneSecurity02 extends Activity implements OnCheckedChangeListener
 			editor.putString(Data.K_Phone_SIM_Serial, Data.V_Phone_SIM_Serial);
 		}
 		editor.commit();
-	}
-	
-	
-	public void next(View view) {
-		PhoneSecurity03.actionStart(PhoneSecurity02.this);
-		finish();
-		overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-	}
-	public void last(View view) {
-		PhoneSecurity01.actionStart(PhoneSecurity02.this);
-		finish();
-		overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
 	}
 	public static void actionStart(Context c) {
 		Intent intent = new Intent(c, PhoneSecurity02.class);
