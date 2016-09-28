@@ -10,12 +10,15 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
-public class PhoneSecurity02 extends Activity {
+public class PhoneSecurity02 extends BaseActivityPhoneSecuritySetting {
 	private CheckBox cBox;
 	private SharedPreferences p;
 	
@@ -36,6 +39,7 @@ public class PhoneSecurity02 extends Activity {
 	private void initView() {
 		cBox = (CheckBox) findViewById(R.id.id_checkbox_bd_phone);
 		p = Util.getPreferences(PhoneSecurity02.this);
+		
 	}
 	
 	public void next(View view) {
@@ -61,8 +65,10 @@ public class PhoneSecurity02 extends Activity {
 		}
 		editor.commit();
 	}
+	
 	public static void actionStart(Context c) {
 		Intent intent = new Intent(c, PhoneSecurity02.class);
 		c.startActivity(intent);
 	}
+	
 }

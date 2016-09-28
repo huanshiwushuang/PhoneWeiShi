@@ -12,7 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 
-public class PhoneSecurity04 extends Activity {
+public class PhoneSecurity04 extends BaseActivityPhoneSecuritySetting {
 	private CheckBox startBH;
 	private SharedPreferences p;
 	
