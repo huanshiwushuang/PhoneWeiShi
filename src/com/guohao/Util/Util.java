@@ -1,7 +1,6 @@
 package com.guohao.Util;
 
 
-import com.guohao.phoneweishi.MainActivity;
 
 import android.app.Activity;
 import android.content.Context;

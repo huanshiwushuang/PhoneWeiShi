@@ -4,14 +4,23 @@ import com.guohao.Util.Data;
 import com.guohao.Util.StringUtil;
 import com.guohao.Util.Util;
 import com.guohao.custom.GridViewAdapter;
+import com.guohao.receiver.MyAdmin;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +38,8 @@ public class StartActivity extends Activity implements OnItemClickListener,OnCli
 	private TextView dialogTitle;
 	private Button ok,cancle;
 	private AlertDialog dialog;
+	private ComponentName name;
+	private	DevicePolicyManager policyManager;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +96,47 @@ public class StartActivity extends Activity implements OnItemClickListener,OnCli
 			builder.setCancelable(false);
 			dialog = builder.show();
 			break;
+		case 1:
+			LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+			if (!manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+				Util.showToast(StartActivity.this, "网络定位不可用");
+				Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+				startActivity(intent);
+			}else {
+				LocationActivity.actionStart(StartActivity.this);
+			}
+			break;
+		case 2:
+			policyManager = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE);
+			name = new ComponentName(this, MyAdmin.class);
+			if (policyManager.isAdminActive(name)) {
+				Log.d("guohao", "有管理员权限");
+				//锁屏
+				policyManager.lockNow();
+				//重置密码
+//				policyManager.resetPassword("guohao123", 0);
+				//回复出厂设置
+//				policyManager.wipeData(0);
+			}else {
+				Log.d("guohao", "没有管理员权限");
+				Intent intent = new Intent();
+				intent.setAction(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+				intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, name);
+				intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "我需要这些权限");
+				startActivityForResult(intent, 0);
+				Log.d("guohao", "没有管理员权限");
+			}
+			break;
+		case 3:
+			if (name != null && policyManager.isAdminActive(name)) {
+				policyManager.removeActiveAdmin(name);
+			}
+			Intent intent = new Intent();
+			intent.setAction(Intent.ACTION_DELETE);
+			intent.addCategory(Intent.CATEGORY_DEFAULT);
+			intent.setData(Uri.parse("package:"+getPackageName()));
+			startActivity(intent);
+			break;
 		case 8:
 			SettingActivity.actionStart(StartActivity.this);
 			break;
@@ -92,7 +144,21 @@ public class StartActivity extends Activity implements OnItemClickListener,OnCli
 			break;
 		}
 	}
-
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		switch (requestCode) {
+		case 0:
+			if (resultCode == RESULT_OK) {
+				Util.showToast(StartActivity.this, "ok");
+			}else {
+				Util.showToast(StartActivity.this, "cancle");
+			}
+			break;
+		}
+	}
+	
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {

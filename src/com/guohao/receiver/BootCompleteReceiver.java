@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.telephony.SmsManager;
 import android.util.Log;
 
 public class BootCompleteReceiver extends BroadcastReceiver {
@@ -18,7 +19,11 @@ public class BootCompleteReceiver extends BroadcastReceiver {
 			SharedPreferences p = Util.getPreferences(context);
 			String serial = p.getString(Data.K_Phone_SIM_Serial, Data.V_Phone_SIM_Serial);
 			if (serial.equals(Data.V_Phone_SIM_Serial)) {
-				Log.d("guohao", "SIM卡更换，发送报警短信");
+				String num = p.getString(Data.K_Phone_Security_Num, Data.V_Phone_Security_Num);
+				if (!num.equals(Data.V_Phone_Security_Num)) {
+					SmsManager manager = SmsManager.getDefault();
+					manager.sendTextMessage(num, null, "发送短信", null, null);
+				}
 			}else {
 				Log.d("guohao", "SIM卡未更换，安全");
 			}

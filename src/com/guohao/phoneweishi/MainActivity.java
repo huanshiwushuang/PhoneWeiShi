@@ -17,6 +17,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -152,8 +153,8 @@ public class MainActivity extends Activity {
 	}
 
 	private void getNetworkVersionInfo() {
-		if (!Util.getActiveNetworkInfo(MainActivity.this).isAvailable()) {
-			finish();
+		NetworkInfo info = Util.getActiveNetworkInfo(MainActivity.this);
+		if (info != null && !info.isAvailable()) {
 			Util.showToast(MainActivity.this, "Œﬁø…”√Õ¯¬Á");
 			return;
 		}

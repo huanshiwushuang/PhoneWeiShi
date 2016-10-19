@@ -8,15 +8,16 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="22" />
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.SEND_SMS"/>
-    
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo"
@@ -32,45 +33,50 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <activity 
-            android:name="com.guohao.phoneweishi.StartActivity">
-            
+        <activity android:name="com.guohao.phoneweishi.StartActivity" >
         </activity>
-        <activity 
-            android:name="com.guohao.phoneweishi.SettingActivity">
-            
+        <activity android:name="com.guohao.phoneweishi.SettingActivity" >
         </activity>
-        <activity 
-            android:name="com.guohao.phoneweishi.PhoneSecurity01">
-            
+        <activity android:name="com.guohao.phoneweishi.PhoneSecurity01" >
         </activity>
-        <activity 
-            android:name="com.guohao.phoneweishi.PhoneSecurity02">
-            
+        <activity android:name="com.guohao.phoneweishi.PhoneSecurity02" >
         </activity>
-        <activity 
-            android:name="com.guohao.phoneweishi.PhoneSecurity03">
-            
+        <activity android:name="com.guohao.phoneweishi.PhoneSecurity03" >
         </activity>
-        <activity 
-            android:name="com.guohao.phoneweishi.PhoneSecurity04">
-            
+        <activity android:name="com.guohao.phoneweishi.PhoneSecurity04" >
         </activity>
-        <activity 
-            android:name="com.guohao.phoneweishi.PhoneSecurityEnd">
-            
+        <activity android:name="com.guohao.phoneweishi.PhoneSecurityEnd" >
         </activity>
-        <activity 
-            android:name="com.guohao.phoneweishi.BaseActivityPhoneSecuritySetting">
-            
+        <activity android:name="com.guohao.phoneweishi.BaseActivityPhoneSecuritySetting" >
         </activity>
-        
-        
+        <activity android:name="com.guohao.phoneweishi.LocationActivity" >
+        </activity>
+
+        <receiver android:name="com.guohao.receiver.BootCompleteReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_MOUNTED" />
+                <action android:name="android.intent.action.MEDIA_UNMOUNTED" />
+
+                <data android:scheme="file" >
+                </data>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.guohao.receiver.SMSReceiver" >
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
         <receiver 
-            android:name="com.guohao.receiver.BootCompleteReceiver">
-            <intent-filter >
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            android:name="com.guohao.receiver.MyAdmin"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <meta-data 
+                android:name="android.app.device_admin"
+                android:resource="@xml/my_device"/>
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED"/>
             </intent-filter>
         </receiver>
     </application>

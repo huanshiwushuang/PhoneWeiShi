@@ -72,7 +72,7 @@ public class PhoneSecurity03 extends BaseActivityPhoneSecuritySetting implements
 			while (cursor.moveToNext()) {
 				String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
 				String num = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-				lists.add(new String[]{name,num});
+				lists.add(new String[]{name,num.replace(" ", "").replace("-", "")});
 			}
 		}
 		//¹¹Ôìµ¯³ö¿ò
